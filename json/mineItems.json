@@ -1,0 +1,32 @@
+[
+  {
+    "name": "我的消息",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "公证信息",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "房产局信息",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "办税大厅",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "银行网点",
+    "count": "0",
+    "needLine": true
+  },
+  {
+    "name": "关于",
+    "count": "0",
+    "needLine": false
+  }
+]

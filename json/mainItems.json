@@ -1,0 +1,32 @@
+[
+  {
+    "name": "代办新增订单",
+    "count": "0",
+    "needLine": true
+  },
+  {
+    "name": "代办按揭订单",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "代办赎楼订单",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "代办权证订单",
+    "count": "0",
+    "needLine": false
+  },
+  {
+    "name": "代办结单订单",
+    "count": "0",
+    "needLine": true
+  },
+  {
+    "name": "在办订单",
+    "count": "0",
+    "needLine": false
+  }
+]
