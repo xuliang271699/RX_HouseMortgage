@@ -12,6 +12,7 @@ import {
     View,
     Image,
     TouchableHighlight,
+    ListView
 } from 'react-native';
 
 
@@ -30,6 +31,8 @@ import {key_userInfo}  from '../../asyncStore/stroreKey'
 import NetUtils from '../../http/netUtils'
 import SorageUtils from '../../utils/sorageUtils'
 
+import OrderItemView from '../../view/item/orderItemView'
+
 
 /**
  * 订单列表页面(目前就做一个吧),做下拉刷新的而已了
@@ -40,8 +43,8 @@ export default class HomeOrderListView extends Component {
     _page = 1
     _dataSource = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     _userInfo;
-    _self;
-    params = {userId: _userInfo.userId, pageNumber: _page, pageSize: 20};
+    params;
+    _dataList=[];
 
     constructor(props) {
         super(props);
@@ -52,9 +55,11 @@ export default class HomeOrderListView extends Component {
 
 
     componentDidMount() {
-        _self = this;
+        let current = this;
+
         SorageUtils._load(key_userInfo, function (ret) {
-            _userInfo = ret;
+            current._userInfo = ret;
+            current.params = {userId: ret.userId, pageNumber: current._page, pageSize: 10};
         })
         let timer = setTimeout(() => {
             clearTimeout(timer)
@@ -68,7 +73,9 @@ export default class HomeOrderListView extends Component {
             <SwRefreshListView
                 dataSource={this.state.dataSource}
                 ref="listView"
-                renderRow={this._renderRow.bind(this)}
+                renderRow={(rowData) => <View>
+                    <OrderItemView data={rowData}></OrderItemView>
+                </View>}
                 onRefresh={this._onListRefersh.bind(this)}//设置下拉刷新的方法 传递参数end函数 当刷新操作结束时
                 onLoadMore={this._onLoadMore.bind(this)} //设置上拉加载执行的方法 传递参数end函数 当刷新操作结束时 end函数可接受一个bool值参数表示刷新结束后是否已经无更多数据了。
                 //isShowLoadMore={false} //可以通过state控制是否显示上拉加载组件，可用于数据不足一屏或者要求数据全部加载完毕时不显示上拉加载控件
@@ -79,17 +86,25 @@ export default class HomeOrderListView extends Component {
             />)
     }
 
-
     /**
      * 模拟刷新
      * @param end
      * @private
      */
     _onListRefersh(end) {
-        this._page = 1;
-        NetUtils.post(apiWaitOrder, params, function (ret) {
+        _page = 1;
+        let currentView = this;
+        this._dataList=[]
+        NetUtils.post(apiWaitOrder, this.params, function (ret) {
             //数据重新设置
-            _self.setState({dataSource: this._dataSource.cloneWithRows(ret.data)})
+            if (ret != null && ret.data != null && ret.data.rows != null) {
+                currentView.setState({dataSource: currentView._dataSource.cloneWithRows(ret.data.rows)})
+                for(i=0;i<ret.data.rows.length;i++){
+                    currentView._dataList.push(ret.data.rows[i])
+                }
+                currentView.end()
+            }
+
         })
     }
 
@@ -100,9 +115,21 @@ export default class HomeOrderListView extends Component {
      */
     _onLoadMore(end) {
         this._page++
-        NetUtils.post(apiWaitOrder, params, function (ret) {
+        let currentView = this;
+        this.params = {userId: this._userInfo.userId, pageNumber: this._page, pageSize: 10};
+        NetUtils.post(apiWaitOrder, this.params, function (ret) {
             //数据重新设置
-            _self.setState({dataSource: this._dataSource.cloneWithRows(ret.data)})
+            if (ret != null && ret.data != null && ret.data.rows != null) {
+                // currentView._dataList=currentView._dataList.concat(ret.data.rows)
+                
+                for(i=0;i<ret.data.rows.length;i++){
+                    currentView._dataList.push(ret.data.rows[i]);
+                }
+                
+                
+                currentView.setState({dataSource: currentView._dataSource.cloneWithRows(currentView._dataList)})
+                currentView.end()
+            }
         })
     }
 

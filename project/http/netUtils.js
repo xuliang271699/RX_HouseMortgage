@@ -8,6 +8,9 @@
 import React, {Component} from 'react';
 import {} from 'react-native';
 
+import {key_userInfo}  from '../asyncStore/stroreKey'
+import SorageUtils from '../utils/sorageUtils'
+
 export  default  class NetUitl extends Component {
     /*
      *  get请求
@@ -43,27 +46,37 @@ export  default  class NetUitl extends Component {
      * */
     static post(url, params, callback) {
         //fetch请求
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'//key-value形式
-                // // 'token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJVLTliZGJhNjBjMjZiMDQwZGJiMTMwYWRhYWVlN2FkYTg2IiwiZXhwaXJhdGlvblRpbWUiOjE0NzUxMTg4ODU4NTd9.ImbjXRFYDNYFPtK2_Q2jffb2rc5DhTZSZopHG_DAuNU"
+        SorageUtils._load(key_userInfo, function (ret) {
+            try {
+                if (ret.data.token != null) {
+                    url = url + ret.data.token;
+                }
+            } catch (e) {
+            }
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'//key-value形式
+                    // // 'token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJVLTliZGJhNjBjMjZiMDQwZGJiMTMwYWRhYWVlN2FkYTg2IiwiZXhwaXJhdGlvblRpbWUiOjE0NzUxMTg4ODU4NTd9.ImbjXRFYDNYFPtK2_Q2jffb2rc5DhTZSZopHG_DAuNU"
 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
 
-            },
-            body: JSON.stringify(params)
+                },
+                body: JSON.stringify(params)
+            })
+                .then((response) => response.json())
+                .then((responseJSON) => {
+                    callback(responseJSON)
+                })
+                .catch((error) => {
+                    callback(error)
+                })
+
+                .done();
         })
-            .then((response) => response.json())
-            .then((responseJSON) => {
-                callback(responseJSON)
-            })
-            .catch((error) => {
-                callback(error)
-            })
 
-            .done();
+
     }
 
 

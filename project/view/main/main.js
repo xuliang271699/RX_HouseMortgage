@@ -30,7 +30,6 @@ import {commStyle} from '../../style/commStyle'
 
 export  default  class MainView extends Component {
 
-
     constructor(prop) {
         super();
         this.state = {
@@ -42,8 +41,6 @@ export  default  class MainView extends Component {
 
 
     render() {
-
-
         return (
             <TabNavigator>
                 <TabNavigator.Item
@@ -56,7 +53,7 @@ export  default  class MainView extends Component {
                                                      style={styles.icon}/>}
                     onPress={() => this.setState({selectIndex: 0})}>
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <HomeView/>
+                        <HomeView currentView={this.props.navigation}/>
                     </View>
                 </TabNavigator.Item>
                 <TabNavigator.Item
@@ -76,6 +73,11 @@ export  default  class MainView extends Component {
         )
 
 
+    }
+
+    goOrderList() {
+        const {navigate} = this.props.navigation   //.navigation;
+        navigate('orderList')
     }
 
 }

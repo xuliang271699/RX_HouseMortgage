@@ -41,8 +41,6 @@ export default class HomeView extends Component {
 
 
     render() {
-
-
         return (<View style={styles.myContainer}><ListView//
             dataSource={this.state.dataSource.cloneWithRows(this.state.data)}
             renderRow={(rowData) => <HomeItemView data={rowData} parent={this}></HomeItemView>}
@@ -58,7 +56,7 @@ export default class HomeView extends Component {
     }
 
     goList() {
-        const {navigate} = this.props.navigation   //.navigation;
+        const {navigate} = this.props.currentView   //.navigation;
         navigate('orderList')
     }
 
@@ -66,6 +64,7 @@ export default class HomeView extends Component {
     loadDataFromNet() {
 
     }
+
 
 }
 

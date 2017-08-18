@@ -111,7 +111,7 @@ export default class LoginView extends Component {
      * 分享按钮
      */
     share() {
-        ShareView.share('sssss', 'http://dev.umeng.com/images/tab2_1.png', '', '', 0, (code, message) => {
+        ShareView.shareboard('sssss', 'http://dev.umeng.com/images/tab2_1.png', 'http://www.baidu.com', 'title',(code, message) => {
             this.setState({result: message});
             alert(message);
         })
@@ -123,8 +123,8 @@ export default class LoginView extends Component {
         UMNative.onEvent(event_login);
         let url = "";
         let result = add(12, 15)
-        let msg = "密码：" + this.state.myPassword + "    姓名:" + this.state.myName + "  " + result;
-        Alert.alert("登录中......" + msg);
+        // let msg = "密码：" + this.state.myPassword + "    姓名:" + this.state.myName + "  " + result;
+        // Alert.alert("登录中......" + msg);
 
 
         let params = {

@@ -1,7 +1,6 @@
 /**
  * Created by xuliang on 2017/8/1.
  */
-// 我的
 
 import React, {Component} from 'react';
 
@@ -23,9 +22,9 @@ import MainView from '../../view/main/main'
 
 
 /**
- * 首页的item，要改需要title和icon数据
+ * 订单item界面
  */
-export default class HomeItemView extends Component {
+export default class OrderItemView extends Component {
 
 
     render() {
@@ -38,17 +37,17 @@ export default class HomeItemView extends Component {
             >
                 <View style={styles.containers}>
                     <Image style={styles.image} source={require('../../../img/content_icon_message.png')}></Image>
-                    <Text style={styles.title}>{itemData.name}</Text>
+                    <Text style={styles.title}>标题是：{itemData.buyerName}</Text>
                     <Image style={styles.iconBack} source={require('../../../img/content_icon_arrow.png')}></Image>
                 </View>
             </TouchableHighlight>
             <View style={[styles.line, {height: 0.5}]}/>
-            {
-                itemData.needLine == true ?
-                    <View style={styles.line}/>
-                    :
-                    null
-            }
+            {/*{*/}
+                {/*itemData.needLine == true ?*/}
+                    {/*<View style={styles.line}/>*/}
+                    {/*:*/}
+                    {/*null*/}
+            {/*}*/}
 
         </View>)
 
@@ -56,9 +55,8 @@ export default class HomeItemView extends Component {
 
 
     onItemClick() {
-        // const {navigate} = main.props.navigation   //.navigation;
-        const {navigate} = this.props.parent.props.currentView
-        navigate('orderList');
+
+
     }
 
 }
@@ -89,7 +87,7 @@ const styles = StyleSheet.create({
         },
 
         title: {
-            fontSize: 12,
+            fontSize: 18,
             marginLeft: 20,
             textAlign: 'left',
             marginTop: 14,
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
 
         containers: {
             flexDirection: 'row',
-            height: 40
+            height: 120
             // justifyContent: 'center',
         }
 
